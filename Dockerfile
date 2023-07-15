@@ -21,4 +21,4 @@ RUN ./gradlew bootJar
 EXPOSE 5555
 
 # Run the application
-CMD ["java", "-jar", "build/libs/myapp.jar"]
+CMD ["java", "-jar", "build/libs/Dairy-0.0.1-SNAPSHOT.jar"]
