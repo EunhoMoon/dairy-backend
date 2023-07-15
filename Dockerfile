@@ -1,13 +1,16 @@
 # Base image
-FROM openjdk:17
+FROM openjdk:17-jdk
 
 # Set the working directory
 WORKDIR /app
 
 # Copy Gradle build files
 COPY build.gradle .
+
 COPY settings.gradle .
+
 COPY gradlew .
+
 COPY gradle ./gradle
 
 # Copy source code
@@ -16,7 +19,7 @@ COPY src ./src
 # Build the project
 RUN chmod +x ./gradlew
 
-RUN ./gradlew build
+RUN ./gradlew bootjar
 
 # Expose the application port
 EXPOSE 5555
