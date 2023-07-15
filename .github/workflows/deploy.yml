@@ -24,13 +24,17 @@ jobs:
           docker build --platform linux/amd64 -t eunhomoon/dairy:latest .
           docker push eunhomoon/dairy:latest
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Install SSH client
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@3.38.153.140 "docker-compose down"
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@3.38.153.140 "docker-compose pull"
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@3.38.153.140 "docker-compose up -d"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > deploy_key
+          chmod 600 deploy_key
+
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker stop myapp"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker rm myapp"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker pull eunhomoon/dairy:latest"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker run -d --name myapp -p 80:5555 eunhomoon/dairy:latest"
+
+
