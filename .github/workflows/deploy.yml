@@ -19,22 +19,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and Push Docker image
-        run: |
-          docker build --platform linux/amd64 -t eunhomoon/dairy:latest .
-          docker push eunhomoon/dairy:latest
-
-      - name: Install SSH client
-        run: sudo apt-get update && sudo apt-get install -y openssh-client
-
-      - name: Deploy to EC2
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > deploy_key
-          chmod 600 deploy_key
-
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker stop myapp"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker rm myapp"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker pull eunhomoon/dairy:latest"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker run -d --name myapp -p 80:5555 eunhomoon/dairy:latest"
-
-
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: eunhomoon/dairy:${{ github.sha }}
+          platforms: linux/amd64
