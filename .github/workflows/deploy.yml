@@ -25,5 +25,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: eunhomoon/dairy:${{ github.sha }}
+          tags: eunhomoon/dairy
           platforms: linux/amd64
