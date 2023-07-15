@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t <your_docker_hub_repository>:latest .
+          docker build -t eunhomoon/dairy:latest .
           docker push <your_docker_hub_repository>:latest
 
       - name: Set up SSH
