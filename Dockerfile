@@ -16,7 +16,7 @@ COPY src ./src
 # Build the project
 RUN chmod +x ./gradlew
 
-RUN ./gradlew bootjar
+RUN ./gradlew build
 
 # Expose the application port
 EXPOSE 5555
