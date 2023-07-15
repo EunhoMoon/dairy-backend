@@ -21,8 +21,8 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t eunhomoon/dairy:latest .
-          docker push <your_docker_hub_repository>:latest
+          docker build --platform linux/arm64 -t eunhomoon/dairy:latest .
+          docker push eunhomoon/dairy:latest
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
