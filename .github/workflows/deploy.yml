@@ -29,8 +29,8 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > deploy_key
+          chmod 600 deploy_key
 
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker stop myapp"
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@3.38.153.140 "docker rm myapp"
