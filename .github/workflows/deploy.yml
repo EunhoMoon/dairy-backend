@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build --platform linux/arm64 -t eunhomoon/dairy:latest .
+          docker build --platform linux/amd64 -t eunhomoon/dairy:latest .
           docker push eunhomoon/dairy:latest
 
       - name: Set up SSH
