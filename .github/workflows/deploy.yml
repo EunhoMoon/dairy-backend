@@ -27,3 +27,11 @@ jobs:
           push: true
           tags: eunhomoon/dairy
           platforms: linux/amd64
+          
+      - name: Copy Docker Compose file to EC2 instance
+        run: |
+          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }}:~/docker-compose.yml
+      
+      - name: SSH into EC2 instance and deploy
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }} 'docker-compose -f ~/docker-compose.yml up -d'
