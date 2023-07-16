@@ -30,8 +30,8 @@ jobs:
         
       - name: Deploy to EC2
         run: |
-          scp docker-compose.yml ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }}:~/docker-compose.yml
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }} 'docker-compose -f ~/docker-compose.yml up -d'
+          scp docker-compose.yml ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }}:~/home/ec2-user/docker-compose.yml
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }} 'docker-compose -f ~/home/ec2-user/docker-compose.yml up -d'
           
 #       - name: Copy Docker Compose file to EC2 instance
 #         run: |
