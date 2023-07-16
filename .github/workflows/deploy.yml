@@ -28,10 +28,10 @@ jobs:
           tags: eunhomoon/dairy
           platforms: linux/amd64
         
-      - name: Deploy to EC2
-        run: |
-          scp -i ${{ secrets.SSH_PRIVATE_KEY }} ./docker-compose.yml ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }}:~/home/ec2-user/docker-compose.yml
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }} 'docker-compose -f ~/home/ec2-user/docker-compose.yml up -d'
+#       - name: Deploy to EC2
+#         run: |
+#           scp -i ${{ secrets.SSH_PRIVATE_KEY }} ./docker-compose.yml ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }}:~/home/ec2-user/docker-compose.yml
+#           ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_IP_ADDRESS }} 'docker-compose -f ~/home/ec2-user/docker-compose.yml up -d'
           
 #       - name: Copy Docker Compose file to EC2 instance
 #         run: |
