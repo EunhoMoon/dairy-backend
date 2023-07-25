@@ -52,5 +52,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            scp -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@${{ secrets.EC2_IP_ADDRESS }}:/home/ec2-user/docker-compose.yml
+            scp -i "${{ secrets.SSH_PRIVATE_KEY }}" docker-compose.yml ec2-user@${{ secrets.EC2_IP_ADDRESS }}:/home/ec2-user/docker-compose.yml
             docker-compose -f docker-compose.yml up -d
