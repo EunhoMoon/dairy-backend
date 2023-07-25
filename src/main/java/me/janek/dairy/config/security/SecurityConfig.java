@@ -51,6 +51,7 @@ public class SecurityConfig {
                 .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                 .requestMatchers("/favicon.ico", "/error").permitAll()
                 .requestMatchers("/api/sign-in", "/api/sign-up").permitAll()
+                .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()
         );
 
