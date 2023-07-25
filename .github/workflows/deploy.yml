@@ -43,10 +43,6 @@ jobs:
       - name: Upload Docker Compose file to S3
         run: |
           aws s3 cp docker-compose.yml s3://dairy-s3/docker-compose.yml
-          
-      - name: Download Docker Compose file from S3
-        run: |
-          aws s3 cp s3://dairy-s3/docker-compose.yml docker-compose.yml
  
       - name: Deploy to EC2 instance
         uses: appleboy/ssh-action@master
@@ -56,6 +52,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            scp -i "${{ secrets.SSH_PRIVATE_KEY }}" docker-compose.yml ec2-user@${{ secrets.EC2_IP_ADDRESS }}:/home/ec2-user
             docker-compose -f docker-compose.yml pull
             docker-compose -f docker-compose.yml up -d
