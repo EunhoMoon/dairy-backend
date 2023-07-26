@@ -1,4 +1,4 @@
-package me.janek.dairy.config.jwt;
+package me.janek.dairy.config;
 
 import lombok.RequiredArgsConstructor;
 import me.janek.dairy.common.jwt.JwtFilter;
@@ -14,7 +14,7 @@ public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public void configure(HttpSecurity builder) throws Exception {
+    public void configure(HttpSecurity builder) {
         JwtFilter jwtFilter = new JwtFilter(jwtTokenProvider);
         builder.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }

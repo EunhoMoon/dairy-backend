@@ -1,10 +1,9 @@
-package me.janek.dairy.config.security;
+package me.janek.dairy.config;
 
 import lombok.RequiredArgsConstructor;
 import me.janek.dairy.common.jwt.JwtAccessDeniedHandler;
 import me.janek.dairy.common.jwt.JwtAuthenticationEntryPoint;
 import me.janek.dairy.common.jwt.JwtTokenProvider;
-import me.janek.dairy.config.jwt.JwtSecurityConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -12,8 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -31,11 +28,6 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf
             .ignoringRequestMatchers(
@@ -50,7 +42,7 @@ public class SecurityConfig {
             authorize
                 .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                 .requestMatchers("/favicon.ico", "/error").permitAll()
-                .requestMatchers("/api/sign-in", "/api/sign-up").permitAll()
+                .requestMatchers("/api/user/sign-in", "/api/user/sign-up").permitAll()
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()
         );

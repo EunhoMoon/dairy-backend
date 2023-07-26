@@ -41,19 +41,17 @@ public class JwtFilter extends GenericFilterBean {
             Authentication authentication = jwtTokenProvider.getAuthentication(jwtToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.debug("회원 아이디: '{}'의 인증 정보를 저장하였습니다. uri: {}", authentication.getName(), requestURI);
-        } else {
-            log.debug("{} uri: {}", tokenStatus.getDescribe(), requestURI);
         }
+//        else {
+//            log.debug("{} uri: {}", tokenStatus.getDescribe(), requestURI);
+//        }
 
         chain.doFilter(request, response);
     }
 
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
+        return (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) ? bearerToken.substring(7) : null;
     }
 
 }

@@ -1,10 +1,9 @@
 package me.janek.dairy.domain.user;
 
 import lombok.RequiredArgsConstructor;
-import me.janek.dairy.infrastructure.user.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,14 +14,27 @@ import java.util.ArrayList;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
+
+    private final UserStore userStore;
+
+    private final UserReader userReader;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var findUser = userRepository.findByEmail(username)
-            .orElseThrow(() -> new UsernameNotFoundException(username));
-
+    public UserDetails loadUserByUsername(String email) {
+        var findUser = userReader.getUserByEmail(email);
         return new User(findUser.getEmail(), findUser.getPassword(), new ArrayList<>());
+    }
+
+    @Override
+    @Transactional
+    public UserInfo sighUpUser(UserCommand command) {
+        var encodedPassword = encoder.encode(command.getPassword());
+        var initUser = command.toEntity(encodedPassword);
+
+        userStore.store(initUser);
+
+        return UserInfo.from(initUser);
     }
 
 }
