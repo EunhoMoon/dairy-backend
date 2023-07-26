@@ -39,10 +39,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y awscli
-
-      - name: Upload Docker Compose file to S3
-        run: |
-          aws s3 cp docker-compose.yml s3://dairy-s3/docker-compose.yml
  
       - name: Deploy to EC2 instance
         uses: appleboy/ssh-action@master
