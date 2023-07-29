@@ -30,13 +30,8 @@ public class UserSignController {
         @Valid @RequestBody Join request,
         BindingResult bindingResult
     ) {
-        if (!request.isPasswordEqual()) {
-            bindingResult.rejectValue("confirmedPassword", "400", "비밀번호가 일치하지 않습니다.");
-        }
-
-        if (bindingResult.hasErrors()) {
-            throw new InvalidRequestException(bindingResult.getFieldErrors());
-        }
+        if (!request.isPasswordEqual()) bindingResult.rejectValue("confirmedPassword", "400", "비밀번호가 일치하지 않습니다.");
+        if (bindingResult.hasErrors()) throw new InvalidRequestException(bindingResult.getFieldErrors());
 
         var command = UserCommand.from(request);
         var signUpUser = new Info(userService.sighUpUser(command));
