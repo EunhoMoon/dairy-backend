@@ -16,4 +16,10 @@ public class UserReaderImpl implements UserReader {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
+
+    @Override
+    public boolean isUserExists(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
 }

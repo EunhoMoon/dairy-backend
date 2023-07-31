@@ -21,7 +21,7 @@ import static me.janek.dairy.common.jwt.JwtTokenProvider.TokenStatus.VALID;
 @RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
 
     private final JwtTokenProvider jwtTokenProvider;
 

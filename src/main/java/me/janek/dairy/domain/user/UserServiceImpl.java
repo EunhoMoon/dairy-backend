@@ -1,6 +1,7 @@
 package me.janek.dairy.domain.user;
 
 import lombok.RequiredArgsConstructor;
+import me.janek.dairy.common.exception.UserAlreadyExistException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,6 +30,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserInfo sighUpUser(UserCommand command) {
+        if (userReader.isUserExists(command.getEmail())) throw new UserAlreadyExistException();
+
         var encodedPassword = encoder.encode(command.getPassword());
         var initUser = command.toEntity(encodedPassword);
 
